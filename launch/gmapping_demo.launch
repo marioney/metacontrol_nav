@@ -1,0 +1,9 @@
+<launch>
+
+  <!--- Run gmapping -->
+  <include file="$(find metacontrol_nav)/launch/include/gmapping.launch" />
+
+  <!--- Run Move Base -->
+  <include file="$(find metacontrol_nav)/launch/include/move_base.launch" />
+
+</launch>

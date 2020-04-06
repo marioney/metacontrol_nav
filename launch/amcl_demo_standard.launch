@@ -1,0 +1,13 @@
+<launch>
+
+  <arg name="profile" default="standard"/>
+  <!-- Run the map server -->
+  <arg name="map_file" default="$(find metacontrol_nav)/maps/ridgeback_race.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!--- Run AMCL -->
+  <include file="$(find metacontrol_nav)/launch/include/amcl.launch" />
+  <!--- Run Move Base -->
+  <include file="$(find metacontrol_nav)/launch/include/move_base.launch" />
+    <arg name="profile" value="$(arg profile)"/>
+  </launch>
