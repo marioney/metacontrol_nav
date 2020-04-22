@@ -22,6 +22,9 @@ $ roslaunch metacontrol_nav odom_navigation_<fast/standard/safe>.launch
 
 ### With map
 
+* fake_localization can be used to lower computing requirements of the Simulation. This can be controlled by the `use_fake_localization` argument
+
 ```
-$ roslaunch metacontrol_nav amcl_demo_<fast/standard/safe>.launch
+$ roslaunch metacontrol_nav amcl_demo_<fast/standard/safe>.launch use_fake_localization:="true"
+
 ```
