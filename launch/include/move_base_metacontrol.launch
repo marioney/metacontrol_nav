@@ -1,0 +1,43 @@
+<launch>
+
+  <arg name="profile" default="standard"/>
+
+  <group if="$(eval profile == 'standard')">
+    <include file="$(find metacontrol_nav)/launch/include/move_base.launch" >
+      <arg name="profile"  value="$(arg profile)"/>
+    </include>
+  </group>
+  <group if="$(eval profile == 'safe')">
+    <include file="$(find metacontrol_nav)/launch/include/move_base.launch" >
+      <arg name="profile"  value="$(arg profile)"/>
+    </include>
+  </group>
+  <group if="$(eval profile == 'fast')">
+    <include file="$(find metacontrol_nav)/launch/include/move_base.launch" >
+      <arg name="profile"  value="$(arg profile)"/>
+    </include>
+  </group>
+  <group unless="$(eval profile == 'standard')">
+  <group unless="$(eval profile == 'safe')">
+  <group unless="$(eval profile == 'fast')">
+    <group ns="move_base">
+      <!-- Load default navigation parameters (not reconfigured ones) -->
+      <rosparam file="$(find metacontrol_nav)/params/standard/costmap_common_params.yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find metacontrol_nav)/params/standard/costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find metacontrol_nav)/params/standard/map_nav_params/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find metacontrol_nav)/params/standard/map_nav_params/global_costmap_params.yaml" command="load" />
+      <rosparam file="$(find metacontrol_nav)/params/standard/base_local_planner_params.yaml" command="load" />
+      <rosparam file="$(find metacontrol_nav)/params/standard/move_base_params.yaml" command="load" />
+      <param name="base_global_planner" type="string" value="navfn/NavfnROS" />
+      <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
+      <remap from="odom" to="odometry/filtered" />
+    </group>
+    <!--- Run Move Base from metacontrol configurations-->
+    <include file="$(eval find(arg('profile')) + '/launch/' + profile + '.launch')">
+
+    </include>
+
+  </group>
+  </group>
+  </group>
+</launch>
