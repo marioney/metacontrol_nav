@@ -32,11 +32,13 @@
       <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
       <remap from="odom" to="odometry/filtered" />
     </group>
-    <!--- Run Move Base from metacontrol configurations-->
-    <include file="$(eval find(arg('profile')) + '/launch/' + profile + '.launch')">
+    <!--- If profile is empty, do not launch move base -->
+    <group unless="$(eval profile == '')">
+      <!--- Run Move Base from metacontrol configurations-->
+      <include file="$(eval find(arg('profile')) + '/launch/' + profile + '.launch')">
 
-    </include>
-
+      </include>
+    </group>
   </group>
   </group>
   </group>
